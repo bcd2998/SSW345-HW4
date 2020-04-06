@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const uid = require('uid')
-let objects = {}
+const uidNum = require('uid')
+let objs = {}
 
 // express configuration
 app.use(express.json({type: '*/*'}));
@@ -16,15 +16,15 @@ app.post('/', function (req, res) {
 });
 
 app.post('/share', (req, res) => {
-    let id = uid(4)
-    objects[id] = req.body
+    let id = uidNum(4)
+    objs[id] = req.body
     res.send({sucess: true, link: "http://localhost:3000/" + id});
 })
 
 app.get('/:id', (req, res) => {
-    if (objects[req.params.id] != null) {
-        res.send(objects[req.params.id])
-        delete objects[req.params.id]
+    if (objs[req.params.id] != null) {
+        res.send(objs[req.params.id])
+        delete objs[req.params.id]
     }
     else{
         res.send({sucess: false, error: 404, message: "Not Found"})
